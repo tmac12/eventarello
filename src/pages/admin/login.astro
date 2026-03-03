@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import LoginForm from '../../components/LoginForm';
+import { getSessionUser } from '../../lib/auth';
+
+const user = await getSessionUser(Astro.cookies);
+if (user) {
+  return Astro.redirect('/admin');
+}
+---
+
+<BaseLayout title="Login - Eventarello">
+  <div class="min-h-screen flex items-center justify-center bg-gray-50">
+    <div class="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
+      <LoginForm client:load />
+    </div>
+  </div>
+</BaseLayout>

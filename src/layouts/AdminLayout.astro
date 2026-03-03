@@ -1,0 +1,32 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title?: string;
+}
+
+const { title = 'Admin - Eventarello' } = Astro.props;
+---
+
+<BaseLayout title={title}>
+  <header class="bg-primary text-white shadow-md">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="/admin" class="text-xl font-bold hover:opacity-90 transition-opacity">
+        Eventarello Admin
+      </a>
+      <nav class="flex items-center gap-4">
+        <a href="/" class="text-sm opacity-80 hover:opacity-100 transition-opacity">
+          Vedi sito
+        </a>
+        <form method="POST" action="/api/auth/logout">
+          <button type="submit" class="text-sm bg-white/20 hover:bg-white/30 px-3 py-1.5 rounded transition-colors cursor-pointer">
+            Logout
+          </button>
+        </form>
+      </nav>
+    </div>
+  </header>
+  <main class="max-w-6xl mx-auto px-4 py-8">
+    <slot />
+  </main>
+</BaseLayout>
