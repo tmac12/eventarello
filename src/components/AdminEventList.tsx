@@ -15,7 +15,7 @@ export default function AdminEventList({ refreshKey }: { refreshKey: number }) {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editForm, setEditForm] = useState({ title: '', event_date: '', location: '', description: '', status: '' as 'draft' | 'published' });
+  const [editForm, setEditForm] = useState({ title: '', event_date: '', location: '', description: '', url: '', status: '' as 'draft' | 'published' });
 
   async function fetchEvents() {
     setLoading(true);
@@ -44,6 +44,7 @@ export default function AdminEventList({ refreshKey }: { refreshKey: number }) {
       event_date: event.event_date.slice(0, 16),
       location: event.location,
       description: event.description || '',
+      url: event.url || '',
       status: event.status as 'draft' | 'published',
     });
   }
@@ -56,6 +57,7 @@ export default function AdminEventList({ refreshKey }: { refreshKey: number }) {
         ...editForm,
         event_date: new Date(editForm.event_date).toISOString(),
         description: editForm.description || undefined,
+        url: editForm.url || undefined,
       }),
     });
     if (res.ok) {
@@ -123,6 +125,13 @@ export default function AdminEventList({ refreshKey }: { refreshKey: number }) {
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-primary resize-none"
                   rows={2}
                   placeholder="Descrizione"
+                />
+                <input
+                  type="url"
+                  value={editForm.url}
+                  onChange={(e) => setEditForm({ ...editForm, url: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="URL (opzionale)"
                 />
                 <div className="flex gap-2 justify-end">
                   <button onClick={() => setEditingId(null)} className="px-3 py-1.5 text-sm border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">

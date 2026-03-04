@@ -16,6 +16,7 @@ export default function ReviewForm({ imageUrl, imagePath, extraction, onCancel, 
   );
   const [location, setLocation] = useState(extraction?.location || '');
   const [description, setDescription] = useState(extraction?.description || '');
+  const [url, setUrl] = useState(extraction?.url || '');
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
 
@@ -32,6 +33,7 @@ export default function ReviewForm({ imageUrl, imagePath, extraction, onCancel, 
           event_date: new Date(eventDate).toISOString(),
           location,
           description: description || undefined,
+          url: url || undefined,
           image_url: imageUrl,
           image_path: imagePath,
           status,
@@ -124,6 +126,17 @@ export default function ReviewForm({ imageUrl, imagePath, extraction, onCancel, 
               onChange={(e) => setDescription(e.target.value)}
               rows={3}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none resize-none"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-1">URL (opzionale)</label>
+            <input
+              type="url"
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              placeholder="https://..."
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
             />
           </div>
         </div>

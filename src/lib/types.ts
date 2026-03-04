@@ -9,6 +9,7 @@ export const geminiExtractionSchema = z.object({
   event_date: z.string().describe('ISO 8601 datetime'),
   location: z.string().min(1),
   description: z.string().optional(),
+  url: z.string().url().optional(),
 });
 
 export type GeminiExtraction = z.infer<typeof geminiExtractionSchema>;
@@ -18,6 +19,7 @@ export const createEventSchema = z.object({
   event_date: z.string().min(1, 'La data è obbligatoria'),
   location: z.string().min(1, 'Il luogo è obbligatorio'),
   description: z.string().optional(),
+  url: z.string().url().optional(),
   image_url: z.string().url(),
   image_path: z.string().min(1),
   status: eventStatusSchema,
@@ -37,6 +39,7 @@ export interface Event {
   event_date: string;
   location: string;
   description: string | null;
+  url: string | null;
   image_url: string;
   image_path: string;
   status: EventStatus;
