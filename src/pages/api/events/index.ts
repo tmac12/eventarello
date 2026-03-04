@@ -34,15 +34,8 @@ export const GET: APIRoute = async ({ url, locals }) => {
       },
     });
   } catch (err) {
-    const runtime = (locals as any).runtime;
     return new Response(
-      JSON.stringify({
-        error: err instanceof Error ? err.message : String(err),
-        debug: {
-          hasRuntime: !!runtime,
-          envKeys: runtime?.env ? Object.keys(runtime.env) : null,
-        },
-      }),
+      JSON.stringify({ error: 'Internal server error' }),
       { status: 500, headers: { 'Content-Type': 'application/json' } },
     );
   }
