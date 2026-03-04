@@ -56,7 +56,12 @@ export const POST: APIRoute = async ({ request }) => {
     .getPublicUrl(filePath);
 
   // Extract data with Gemini
-  const base64 = btoa(String.fromCharCode(...uint8));
+  let binary = '';
+  const chunkSize = 8192;
+  for (let i = 0; i < uint8.length; i += chunkSize) {
+    binary += String.fromCharCode(...uint8.subarray(i, i + chunkSize));
+  }
+  const base64 = btoa(binary);
   let extraction = null;
   try {
     extraction = await extractEventData(base64, file.type);
