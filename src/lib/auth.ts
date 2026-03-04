@@ -1,16 +1,13 @@
 import type { AstroCookies } from 'astro';
-import { createClient } from '@supabase/supabase-js';
+import { getServiceClient } from './supabase';
 
-export async function getSessionUser(cookies: AstroCookies) {
+export async function getSessionUser(cookies: AstroCookies, env: Record<string, string>) {
   const accessToken = cookies.get('sb-access-token')?.value;
   const refreshToken = cookies.get('sb-refresh-token')?.value;
 
   if (!accessToken || !refreshToken) return null;
 
-  const supabase = createClient(
-    import.meta.env.SUPABASE_URL,
-    import.meta.env.SUPABASE_SERVICE_ROLE_KEY,
-  );
+  const supabase = getServiceClient(env);
 
   const { data, error } = await supabase.auth.getUser(accessToken);
   if (error || !data.user) {

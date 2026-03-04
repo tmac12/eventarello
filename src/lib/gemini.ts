@@ -4,8 +4,9 @@ import type { GeminiExtraction } from './types';
 export async function extractEventData(
   imageBase64: string,
   mimeType: string,
+  env: Record<string, string>,
 ): Promise<GeminiExtraction | null> {
-  const apiKey = import.meta.env.GEMINI_API_KEY;
+  const apiKey = env.GEMINI_API_KEY;
   if (!apiKey) throw new Error('Missing GEMINI_API_KEY');
 
   const ai = new GoogleGenAI({ apiKey });

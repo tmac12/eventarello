@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
-import { createClient } from '@supabase/supabase-js';
+import { getServiceClient, getRuntimeEnv } from '../../../lib/supabase';
 
-export const POST: APIRoute = async ({ request, cookies }) => {
+export const POST: APIRoute = async ({ request, cookies, locals }) => {
   const body = await request.json();
   const { email, password } = body;
 
@@ -12,10 +12,8 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     });
   }
 
-  const supabase = createClient(
-    import.meta.env.SUPABASE_URL,
-    import.meta.env.SUPABASE_SERVICE_ROLE_KEY,
-  );
+  const env = getRuntimeEnv(locals);
+  const supabase = getServiceClient(env);
 
   const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 

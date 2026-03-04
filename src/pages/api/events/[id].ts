@@ -1,8 +1,8 @@
 import type { APIRoute } from 'astro';
-import { getServiceClient } from '../../../lib/supabase';
+import { getServiceClient, getRuntimeEnv } from '../../../lib/supabase';
 import { updateEventSchema } from '../../../lib/types';
 
-export const PUT: APIRoute = async ({ params, request }) => {
+export const PUT: APIRoute = async ({ params, request, locals }) => {
   const id = params.id;
   if (!id) {
     return new Response(JSON.stringify({ error: 'ID mancante' }), {
@@ -23,7 +23,8 @@ export const PUT: APIRoute = async ({ params, request }) => {
 
   const { id: _id, ...updateData } = parsed.data;
 
-  const supabase = getServiceClient();
+  const env = getRuntimeEnv(locals);
+  const supabase = getServiceClient(env);
   const { data, error } = await supabase
     .from('events')
     .update(updateData)
@@ -44,7 +45,7 @@ export const PUT: APIRoute = async ({ params, request }) => {
   });
 };
 
-export const DELETE: APIRoute = async ({ params }) => {
+export const DELETE: APIRoute = async ({ params, locals }) => {
   const id = params.id;
   if (!id) {
     return new Response(JSON.stringify({ error: 'ID mancante' }), {
@@ -53,7 +54,8 @@ export const DELETE: APIRoute = async ({ params }) => {
     });
   }
 
-  const supabase = getServiceClient();
+  const env = getRuntimeEnv(locals);
+  const supabase = getServiceClient(env);
 
   // Get the event to delete its image
   const { data: event } = await supabase

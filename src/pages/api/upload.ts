@@ -1,8 +1,8 @@
 import type { APIRoute } from 'astro';
-import { getServiceClient } from '../../lib/supabase';
+import { getServiceClient, getRuntimeEnv } from '../../lib/supabase';
 import { extractEventData } from '../../lib/gemini';
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   const formData = await request.formData();
   const file = formData.get('image') as File | null;
 
@@ -28,7 +28,8 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  const supabase = getServiceClient();
+  const env = getRuntimeEnv(locals);
+  const supabase = getServiceClient(env);
   const arrayBuffer = await file.arrayBuffer();
   const uint8 = new Uint8Array(arrayBuffer);
 
@@ -64,7 +65,7 @@ export const POST: APIRoute = async ({ request }) => {
   const base64 = btoa(binary);
   let extraction = null;
   try {
-    extraction = await extractEventData(base64, file.type);
+    extraction = await extractEventData(base64, file.type, env);
   } catch (err) {
     console.error('Gemini extraction error:', err);
   }

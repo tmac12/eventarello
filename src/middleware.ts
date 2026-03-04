@@ -26,7 +26,8 @@ export const onRequest = defineMiddleware(async (context, next) => {
     return next();
   }
 
-  const user = await getSessionUser(context.cookies);
+  const env = (context.locals as any).runtime?.env ?? {};
+  const user = await getSessionUser(context.cookies, env);
 
   if (!user) {
     if (isProtectedApi) {

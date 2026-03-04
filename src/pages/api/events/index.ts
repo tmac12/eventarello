@@ -1,9 +1,10 @@
 import type { APIRoute } from 'astro';
-import { getServiceClient } from '../../../lib/supabase';
+import { getServiceClient, getRuntimeEnv } from '../../../lib/supabase';
 import { createEventSchema } from '../../../lib/types';
 
-export const GET: APIRoute = async ({ url }) => {
-  const supabase = getServiceClient();
+export const GET: APIRoute = async ({ url, locals }) => {
+  const env = getRuntimeEnv(locals);
+  const supabase = getServiceClient(env);
   const showAll = url.searchParams.get('all') === 'true';
 
   let query = supabase
@@ -33,7 +34,7 @@ export const GET: APIRoute = async ({ url }) => {
   });
 };
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   const body = await request.json();
   const parsed = createEventSchema.safeParse(body);
 
@@ -44,7 +45,8 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
 
-  const supabase = getServiceClient();
+  const env = getRuntimeEnv(locals);
+  const supabase = getServiceClient(env);
   const { data, error } = await supabase
     .from('events')
     .insert(parsed.data)
