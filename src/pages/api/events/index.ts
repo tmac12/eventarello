@@ -3,35 +3,49 @@ import { getServiceClient, getRuntimeEnv } from '../../../lib/supabase';
 import { createEventSchema } from '../../../lib/types';
 
 export const GET: APIRoute = async ({ url, locals }) => {
-  const env = getRuntimeEnv(locals);
-  const supabase = getServiceClient(env);
-  const showAll = url.searchParams.get('all') === 'true';
+  try {
+    const env = getRuntimeEnv(locals);
+    const supabase = getServiceClient(env);
+    const showAll = url.searchParams.get('all') === 'true';
 
-  let query = supabase
-    .from('events')
-    .select('*')
-    .order('event_date', { ascending: true });
+    let query = supabase
+      .from('events')
+      .select('*')
+      .order('event_date', { ascending: true });
 
-  if (!showAll) {
-    query = query.eq('status', 'published');
-  }
+    if (!showAll) {
+      query = query.eq('status', 'published');
+    }
 
-  const { data, error } = await query;
+    const { data, error } = await query;
 
-  if (error) {
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
+    if (error) {
+      return new Response(JSON.stringify({ error: error.message }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    return new Response(JSON.stringify(data), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Control': showAll ? 'no-cache' : 'public, max-age=300',
+      },
     });
+  } catch (err) {
+    const runtime = (locals as any).runtime;
+    return new Response(
+      JSON.stringify({
+        error: err instanceof Error ? err.message : String(err),
+        debug: {
+          hasRuntime: !!runtime,
+          envKeys: runtime?.env ? Object.keys(runtime.env) : null,
+        },
+      }),
+      { status: 500, headers: { 'Content-Type': 'application/json' } },
+    );
   }
-
-  return new Response(JSON.stringify(data), {
-    status: 200,
-    headers: {
-      'Content-Type': 'application/json',
-      'Cache-Control': showAll ? 'no-cache' : 'public, max-age=300',
-    },
-  });
 };
 
 export const POST: APIRoute = async ({ request, locals }) => {
