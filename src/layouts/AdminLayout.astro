@@ -11,7 +11,8 @@ const { title = 'Admin - Eventarello' } = Astro.props;
 <BaseLayout title={title}>
   <header class="bg-primary text-white shadow-md">
     <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-      <a href="/admin" class="text-xl font-bold hover:opacity-90 transition-opacity">
+      <a href="/admin" class="flex items-center gap-2 text-xl font-bold hover:opacity-90 transition-opacity">
+        <img src="/logo.svg" alt="" width="28" height="28" class="brightness-0 invert" />
         Eventarello Admin
       </a>
       <nav class="flex items-center gap-4">

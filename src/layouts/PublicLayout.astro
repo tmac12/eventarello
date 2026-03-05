@@ -11,8 +11,9 @@ const { title = 'Eventarello' } = Astro.props;
 <BaseLayout title={title}>
   <header class="sticky top-0 z-40 shadow-sm" style={`background: var(--th-header-bg); border-bottom: 1px solid var(--th-border); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);`}>
     <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-      <a href="/" class="text-2xl font-bold hover:opacity-80 transition-opacity" style="background: linear-gradient(135deg, #6366f1, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
-        Eventarello
+      <a href="/" class="flex items-center gap-2 text-2xl font-bold hover:opacity-80 transition-opacity">
+        <img src="/logo.svg" alt="" width="28" height="28" />
+        <span style="background: linear-gradient(135deg, #6366f1, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Eventarello</span>
       </a>
       <div class="flex items-center gap-4">
         <a href="/contact" class="text-sm font-medium transition-colors hover:opacity-80" style="color: var(--th-text-muted);">
@@ -40,6 +41,13 @@ const { title = 'Eventarello' } = Astro.props;
   <main class="max-w-4xl mx-auto px-4 py-8">
     <slot />
   </main>
+  <footer class="border-t py-6 text-center text-sm" style="border-color: var(--th-border); color: var(--th-text-muted);">
+    <div class="max-w-4xl mx-auto px-4 flex items-center justify-center gap-4">
+      <span>&copy; {new Date().getFullYear()} Eventarello</span>
+      <span>&middot;</span>
+      <a href="/contact" class="hover:opacity-80 transition-opacity" style="color: var(--th-text-muted);">Contatti</a>
+    </div>
+  </footer>
 </BaseLayout>
 
 <script is:inline>

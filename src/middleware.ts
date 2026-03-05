@@ -18,7 +18,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
     !PUBLIC_API_PATHS.includes(pathname);
 
   if (!isProtectedPage && !isProtectedApi) {
-    return next();
+    const response = await next();
+    response.headers.set('X-Frame-Options', 'DENY');
+    response.headers.set('X-Content-Type-Options', 'nosniff');
+    response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+    response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+    return response;
   }
 
   // Allow login page
@@ -40,5 +45,10 @@ export const onRequest = defineMiddleware(async (context, next) => {
   }
 
   context.locals.user = user;
-  return next();
+  const response = await next();
+  response.headers.set('X-Frame-Options', 'DENY');
+  response.headers.set('X-Content-Type-Options', 'nosniff');
+  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+  return response;
 });

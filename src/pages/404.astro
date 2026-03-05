@@ -1,0 +1,24 @@
+---
+import PublicLayout from '../layouts/PublicLayout.astro';
+---
+
+<PublicLayout title="Pagina non trovata - Eventarello">
+  <div class="flex flex-col items-center justify-center py-20 text-center">
+    <h1 class="text-7xl font-bold mb-4" style="background: linear-gradient(135deg, #6366f1, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+      404
+    </h1>
+    <p class="text-xl mb-8" style="color: var(--th-text-muted);">
+      La pagina che stai cercando non esiste.
+    </p>
+    <a
+      href="/"
+      class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white transition-all hover:opacity-90"
+      style="background: linear-gradient(135deg, #6366f1, #818cf8);"
+    >
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+      </svg>
+      Torna alla home
+    </a>
+  </div>
+</PublicLayout>
