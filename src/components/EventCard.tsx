@@ -12,7 +12,7 @@ function formatDate(iso: string) {
   }).format(new Date(iso));
 }
 
-export default function EventCard({ event, position, past }: { event: Event; position: 'left' | 'right'; past?: boolean }) {
+export default function EventCard({ event, position, past, animationIndex = 0 }: { event: Event; position: 'left' | 'right'; past?: boolean; animationIndex?: number }) {
   const [showFullscreen, setShowFullscreen] = useState(false);
 
   useEffect(() => {
@@ -26,21 +26,24 @@ export default function EventCard({ event, position, past }: { event: Event; pos
 
   return (
     <>
-      <div className={`flex items-start gap-4 md:gap-8 ${
-        position === 'right' ? 'md:flex-row-reverse' : ''
-      }`}>
+      <div
+        className={`animate-fade-slide-up flex items-start gap-4 md:gap-8 ${
+          position === 'right' ? 'md:flex-row-reverse' : ''
+        }`}
+        style={{ animationDelay: `${Math.min(animationIndex * 80, 400)}ms` }}
+      >
         {/* Card */}
-        <div className={`flex-1 bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden hover:shadow-lg transition-shadow ${past ? 'opacity-60' : ''}`}>
+        <div className={`flex-1 bg-surface rounded-2xl shadow-md overflow-hidden hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300 ${past ? 'opacity-60 grayscale-[20%]' : ''}`} style={{ border: '1px solid var(--th-border)' }}>
           <button
             type="button"
             onClick={() => setShowFullscreen(true)}
-            className="w-full cursor-zoom-in"
+            className="group w-full cursor-zoom-in overflow-hidden"
           >
             <img
               src={event.image_url}
               alt={event.title}
               loading="lazy"
-              className="w-full h-48 object-cover"
+              className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
             />
           </button>
           <div className="p-4 space-y-2">
@@ -86,13 +89,13 @@ export default function EventCard({ event, position, past }: { event: Event; pos
       {/* Fullscreen overlay */}
       {showFullscreen && (
         <div
-          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center"
+          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center animate-overlay-in"
           onClick={() => setShowFullscreen(false)}
         >
           <button
             type="button"
             onClick={() => setShowFullscreen(false)}
-            className="absolute top-4 right-4 text-white/80 hover:text-white cursor-pointer"
+            className="absolute top-4 right-4 text-white/80 hover:text-white hover:scale-110 hover:rotate-90 transition-all duration-300 cursor-pointer"
             aria-label="Chiudi"
           >
             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -102,7 +105,7 @@ export default function EventCard({ event, position, past }: { event: Event; pos
           <img
             src={event.image_url}
             alt={event.title}
-            className="max-w-full max-h-full object-contain p-4"
+            className="max-w-full max-h-full object-contain p-4 animate-image-scale-in"
             onClick={(e) => e.stopPropagation()}
           />
         </div>

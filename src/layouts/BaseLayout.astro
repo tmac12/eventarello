@@ -16,6 +16,13 @@ const { title } = Astro.props;
     <meta name="description" content="Eventarello - Scopri gli eventi nella tua zona" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+    <script is:inline>
+      (function() {
+        var stored = localStorage.getItem('theme');
+        var pref = stored || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        document.documentElement.setAttribute('data-theme', pref);
+      })();
+    </script>
   </head>
   <body class="min-h-screen">
     <slot />

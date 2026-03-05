@@ -9,14 +9,54 @@ const { title = 'Eventarello' } = Astro.props;
 ---
 
 <BaseLayout title={title}>
-  <header class="bg-white shadow-sm border-b border-gray-200">
-    <div class="max-w-4xl mx-auto px-4 py-4">
-      <a href="/" class="text-2xl font-bold text-primary hover:text-primary-dark transition-colors">
+  <header class="sticky top-0 z-40 shadow-sm" style={`background: var(--th-header-bg); border-bottom: 1px solid var(--th-border); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);`}>
+    <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="/" class="text-2xl font-bold hover:opacity-80 transition-opacity" style="background: linear-gradient(135deg, #6366f1, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
         Eventarello
       </a>
+      <button
+        id="theme-toggle"
+        type="button"
+        class="p-2 rounded-xl transition-colors cursor-pointer"
+        style="color: var(--th-text-muted);"
+        aria-label="Cambia tema"
+      >
+        <!-- Sun icon (shown in dark mode) -->
+        <svg id="theme-icon-sun" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+        <!-- Moon icon (shown in light mode) -->
+        <svg id="theme-icon-moon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+      </button>
     </div>
   </header>
   <main class="max-w-4xl mx-auto px-4 py-8">
     <slot />
   </main>
 </BaseLayout>
+
+<script is:inline>
+  (function() {
+    var sun = document.getElementById('theme-icon-sun');
+    var moon = document.getElementById('theme-icon-moon');
+    var btn = document.getElementById('theme-toggle');
+
+    function updateIcons() {
+      var isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+      sun.classList.toggle('hidden', !isDark);
+      moon.classList.toggle('hidden', isDark);
+    }
+
+    updateIcons();
+
+    btn.addEventListener('click', function() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      updateIcons();
+    });
+  })();
+</script>

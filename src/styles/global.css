@@ -3,15 +3,128 @@
 @theme {
   --color-primary: #6366f1;
   --color-primary-dark: #4f46e5;
+  --color-primary-light: #818cf8;
   --color-accent: #f59e0b;
-  --color-surface: #ffffff;
-  --color-surface-dark: #f8fafc;
-  --color-text: #1e293b;
-  --color-text-muted: #64748b;
+  --color-surface: var(--th-surface);
+  --color-surface-dark: var(--th-surface-dark);
+  --color-text: var(--th-text);
+  --color-text-muted: var(--th-text-muted);
+}
+
+:root {
+  --th-surface: #1a1a2e;
+  --th-surface-dark: #0f0f1a;
+  --th-text: #e2e8f0;
+  --th-text-muted: #94a3b8;
+  --th-body-bg: linear-gradient(160deg, #0f0f1a 0%, #1a1a2e 55%, #1c1917 100%);
+  --th-header-bg: rgba(15, 15, 26, 0.80);
+  --th-border: rgba(255, 255, 255, 0.1);
+  --th-hover-bg: rgba(255, 255, 255, 0.1);
+  --th-skeleton: rgba(255, 255, 255, 0.1);
+  --th-picker-bg: rgba(26, 26, 46, 0.80);
+  --th-ring: rgba(255, 255, 255, 0.2);
+  --th-timeline-mid: rgba(99, 102, 241, 0.4);
+  --th-timeline-edge: rgba(67, 56, 202, 0.3);
+  --th-divider-line: rgba(99, 102, 241, 0.2);
+  --th-divider-pill: rgba(99, 102, 241, 0.15);
+  --th-dot-border: #1a1a2e;
+  --th-empty-icon: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="light"] {
+  --th-surface: #ffffff;
+  --th-surface-dark: #f8fafc;
+  --th-text: #1e293b;
+  --th-text-muted: #64748b;
+  --th-body-bg: linear-gradient(160deg, #f0f1fe 0%, #f8fafc 55%, #fdf4e7 100%);
+  --th-header-bg: rgba(255, 255, 255, 0.80);
+  --th-border: rgba(0, 0, 0, 0.06);
+  --th-hover-bg: rgba(99, 102, 241, 0.05);
+  --th-skeleton: #e2e8f0;
+  --th-picker-bg: rgba(255, 255, 255, 0.80);
+  --th-ring: rgba(99, 102, 241, 0.24);
+  --th-timeline-mid: rgba(165, 180, 252, 1);
+  --th-timeline-edge: rgba(199, 210, 254, 1);
+  --th-divider-line: rgba(199, 210, 254, 1);
+  --th-divider-pill: linear-gradient(135deg, #ede9fe, #e0e7ff);
+  --th-dot-border: #ffffff;
+  --th-empty-icon: #d1d5db;
+}
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dotPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(99, 102, 241, 0);
+  }
+}
+
+@keyframes overlayIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes imageScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@utility animate-fade-slide-up {
+  animation: fadeSlideUp 0.45s ease-out both;
+}
+
+@utility animate-fade-in {
+  animation: fadeIn 0.35s ease-out both;
+}
+
+@utility animate-overlay-in {
+  animation: overlayIn 0.25s ease-out both;
+}
+
+@utility animate-image-scale-in {
+  animation: imageScaleIn 0.35s ease-out both;
+}
+
+@utility dot-pulse {
+  animation: dotPulse 2.2s ease-in-out infinite;
 }
 
 body {
   font-family: system-ui, -apple-system, sans-serif;
   color: var(--color-text);
-  background: var(--color-surface-dark);
+  background: var(--th-body-bg);
+  min-height: 100vh;
 }
