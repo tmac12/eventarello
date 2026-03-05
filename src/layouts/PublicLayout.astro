@@ -9,6 +9,7 @@ const { title = 'Eventarello' } = Astro.props;
 ---
 
 <BaseLayout title={title}>
+  <div class="min-h-screen flex flex-col">
   <header class="sticky top-0 z-40 shadow-sm" style={`background: var(--th-header-bg); border-bottom: 1px solid var(--th-border); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);`}>
     <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
       <a href="/" class="flex items-center gap-2 text-2xl font-bold hover:opacity-80 transition-opacity">
@@ -38,7 +39,7 @@ const { title = 'Eventarello' } = Astro.props;
       </div>
     </div>
   </header>
-  <main class="max-w-4xl mx-auto px-4 py-8">
+  <main class="max-w-4xl mx-auto px-4 py-8 flex-1 w-full">
     <slot />
   </main>
   <footer class="border-t py-6 text-center text-sm" style="border-color: var(--th-border); color: var(--th-text-muted);">
@@ -48,6 +49,7 @@ const { title = 'Eventarello' } = Astro.props;
       <a href="/contact" class="hover:opacity-80 transition-opacity" style="color: var(--th-text-muted);">Contatti</a>
     </div>
   </footer>
+  </div>
 </BaseLayout>
 
 <script is:inline>
