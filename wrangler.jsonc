@@ -11,5 +11,9 @@
   },
   "observability": {
     "enabled": true
+  },
+  "vars": {
+    "SUPABASE_URL": "https://blxbmadmjmhjbljloqpe.supabase.co",
+    "PUBLIC_SUPABASE_URL": "https://blxbmadmjmhjbljloqpe.supabase.co"
   }
 }
