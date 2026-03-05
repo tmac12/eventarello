@@ -14,8 +14,12 @@ const { title = 'Eventarello' } = Astro.props;
       <a href="/" class="text-2xl font-bold hover:opacity-80 transition-opacity" style="background: linear-gradient(135deg, #6366f1, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
         Eventarello
       </a>
-      <button
-        id="theme-toggle"
+      <div class="flex items-center gap-4">
+        <a href="/contact" class="text-sm font-medium transition-colors hover:opacity-80" style="color: var(--th-text-muted);">
+          Contatti
+        </a>
+        <button
+          id="theme-toggle"
         type="button"
         class="p-2 rounded-xl transition-colors cursor-pointer"
         style="color: var(--th-text-muted);"
@@ -30,12 +34,24 @@ const { title = 'Eventarello' } = Astro.props;
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
         </svg>
       </button>
+      </div>
     </div>
   </header>
   <main class="max-w-4xl mx-auto px-4 py-8">
     <slot />
   </main>
 </BaseLayout>
+
+<script is:inline>
+  (function() {
+    var data = JSON.stringify({ page: location.pathname });
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon('/api/views', new Blob([data], { type: 'application/json' }));
+    } else {
+      fetch('/api/views', { method: 'POST', body: data, headers: { 'Content-Type': 'application/json' } });
+    }
+  })();
+</script>
 
 <script is:inline>
   (function() {
