@@ -12,7 +12,7 @@ function formatDate(iso: string) {
   }).format(new Date(iso));
 }
 
-export default function EventCard({ event, position }: { event: Event; position: 'left' | 'right' }) {
+export default function EventCard({ event, position, past }: { event: Event; position: 'left' | 'right'; past?: boolean }) {
   const [showFullscreen, setShowFullscreen] = useState(false);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function EventCard({ event, position }: { event: Event; position:
         position === 'right' ? 'md:flex-row-reverse' : ''
       }`}>
         {/* Card */}
-        <div className="flex-1 bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden hover:shadow-lg transition-shadow">
+        <div className={`flex-1 bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden hover:shadow-lg transition-shadow ${past ? 'opacity-60' : ''}`}>
           <button
             type="button"
             onClick={() => setShowFullscreen(true)}
